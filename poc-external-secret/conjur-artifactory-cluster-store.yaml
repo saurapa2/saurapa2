@@ -1,0 +1,17 @@
+apiVersion: external-secrets.io/v1beta1
+kind: ClusterSecretStore
+metadata:
+  name: conjur-artifactory-cluster-store
+spec:
+  provider:
+    conjur:
+      url: https://conjur-nonprod.cisco.com
+      auth:
+        apikey:
+          account: cisco
+          userRef:
+            name: conjur-artifactory-docker-creds
+            key: host
+          apiKeyRef:
+            name: conjur-artifactory-docker-creds
+            key: apikey

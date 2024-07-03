@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: consumer-deployment-conjur-artifactory
+  namespace: esphcapp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: consumer
+  template:
+    metadata:
+      labels:
+        app: consumer
+    spec:
+      containers:
+      - name: consumer
+        image: nginx:latest
+        command: ["/bin/sh"]
+        args:
+        - "-c"
+        - |
+          echo $APP_PASSWORD > /etc/app_password.txt && nginx -g 'daemon off;'
+        env:
+        - name: ESP_LIFECYCLE
+          value: "dev"
+        - name: APP_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: conjur-artifactory-api-key-token
+              key: APP_PASSWORD
+      imagePullSecrets:
+      - name: conjur-artifactory-api-key-token
