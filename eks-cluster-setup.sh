@@ -11,16 +11,16 @@ CLUSTER_NAME=$1
 AWS_REGION=$2
 
 # Remove existing EKS configuration
-rm -rf ~/.kube/eks
+rm -rf ~/.kube/config
 
 # Set AWS region
 export AWS_DEFAULT_REGION=$AWS_REGION
 
 # Set Kubeconfig path
-export KUBECONFIG=~/.kube/eks
+export KUBECONFIG=~/.kube/config
 
 # Update kubeconfig for the specified EKS cluster
-aws eks update-kubeconfig --kubeconfig ~/.kube/eks --name $CLUSTER_NAME
+aws eks update-kubeconfig --kubeconfig ~/.kube/config --name $CLUSTER_NAME
 
 # Get cluster info
 kubectl cluster-info
